@@ -1,0 +1,25 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push-to-gcr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Configure Google Cloud CLI
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.GCLOUD_SERVICE_KEY }}"
+      - name: Authenticate with Docker Registry
+        run: gcloud auth configure-docker europe-west3-docker.pkg.dev
+
+      - name: Build Docker Image
+        run: docker build --tag ${{ vars.IMAGE_NAME }}:latest .
+
+      - name: Push Docker Image to GCR
+        run: docker push ${{ vars.IMAGE_NAME }}:latest
