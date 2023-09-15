@@ -68,20 +68,20 @@ app.get("/service/one", async (req, res) => {
 import mongoose from "mongoose";
 import listEndpoints from "express-list-endpoints";
 
-if (!process.env.MONGO_URI) {
-  throw new Error("No mongo url provided");
-}
+// if (!process.env.MONGO_URI) {
+//   throw new Error("No mongo url provided");
+// }
 const port = process.env.PORT || 8083;
 
-const mongoConnection = mongoose.connect(process.env.MONGO_URI);
+// const mongoConnection = mongoose.connect(process.env.MONGO_URI);
 console.log(process.env.MONGO_URI);
-mongoose.createConnection(process.env.MONGO_URI).asPromise();
-mongoConnection.then(() => {
-  app.listen(port, () => {
-    console.log(`Connected with mongoDB at ${process.env.MONGO_URI}`);
-    console.table(listEndpoints(app));
-    console.log(`server running on port ${port}`);
-  });
+// mongoose.createConnection("mongo://admin:password@localhost:27017").asPromise();
+// mongoConnection.then(() => {
+app.listen(port, () => {
+  console.log(`Connected with mongoDB `);
+  console.table(listEndpoints(app));
+  console.log(`server running on port ${port}`);
 });
+// });
 
 export default app;
